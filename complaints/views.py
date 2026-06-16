@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from .models import Complaint
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -111,7 +112,20 @@ def view_own_complaints(request):
 @login_required
 def view_all_complaints(request):
     complaints = Complaint.objects.all()
-    context = {'complaints': complaints, 'title': "View All Complaints", 'show_user': True}
+    query = request.GET.get('q')
+
+    if query:
+        complaints = complaints.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    context = {
+        'complaints': complaints, 
+        'title': "View All Complaints",
+        'show_user': True,
+        'query': query
+    }
+    
     return render(request, 'complaint_list.html', context)
 
 @login_required
