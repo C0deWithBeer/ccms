@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{ title }}</h2>
+    <hr>
+    
+    {% if not show_user %}
+        {% for cum in complaints %}
+            <h3>{{ cum.title }}</h3>
+            <p>{{ cum.description }}</p>
+            <p>{{ cum.status }}</p>
+        {% endfor %}
+    {% else %}
+        {% for cum in complaints %}
+            <h3>{{ cum.title }}</h3>
+            <p>{{ cum.description }}</p>
+            <p>{{ cum.status }}</p>
+            <p>Belongs to:  {{ cum.user.username }}</p>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

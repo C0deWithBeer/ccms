@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Management System</title>
+</head>
+<body>
+    <h1>Welcome to the Complaint Management System</h1>
+    
+    <h3>Your Options:</h3>
+    
+    <ul>
+        {# Notice the 'not' added here to fix the login logic #}
+        {% if not has_logged_in %}
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+        {% else %}
+            {% if role == 'user' %}
+                <li><a href="/create-complaint">Create a Complaint</a></li>
+                <li><a href="/view-own-complaints">View Own Complaints</a></li>
+            {% elif role == 'admin' %}
+                <li><a href="/manage/complaints">View all Complaints</a></li>
+                <li><a href="/manage/complaints/status-update">Change Status</a></li>
+            {% else %}
+                <h2>Something went wrong! reload</h2>
+            {% endif %}
+        {% endif %}
+    </ul>
+</body>
+</html>
