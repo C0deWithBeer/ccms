@@ -12,21 +12,30 @@
     </form>
     <h2>{{ title }}</h2>
     <hr>
-    
-    {% if not show_user %}
-        {% for cum in complaints %}
-            <h3>{{ cum.title }}</h3>
-            <p>{{ cum.description }}</p>
-            <p>{{ cum.status }}</p>
-        {% endfor %}
-    {% else %}
-        {% for cum in complaints %}
-            <h3>{{ cum.title }}</h3>
-            <p>{{ cum.description }}</p>
-            <p>{{ cum.status }}</p>
-            <p>Belongs to:  {{ cum.user.username }}</p>
-        {% endfor %}
-    {% endif %}
+    {% for complaint in page_obj %}
+        <h3>{{ complaint.title }}</h3>
+        <p>{{ complaint.description }}</p>
+        <p>{{ complaint.status }}</p>
+        <p>Belongs to:  {{ complaint.user.username }}</p>
+        <hr>
+    {% endfor %}
+    <br>
+    <div>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
+            Previous
+            </a>
+        {% endif %}
 
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
+            Next
+            </a>
+        {% endif %}
+    </div>
 </body>
 </html>

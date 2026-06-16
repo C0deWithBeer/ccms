@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 ###
 ###  COMMON
@@ -102,7 +103,12 @@ def view_own_complaints(request):
     complaints = Complaint.objects.filter(
         user=request.user
     )
-    context = {'complaints': complaints, 'title': 'View Own Complaints', 'show_user': False}
+
+    paginator = Paginator(complaints, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'page_obj': page_obj, 'title': 'View Own Complaints'}
     return render(request, 'complaint_list.html', context)
 
 
@@ -118,14 +124,18 @@ def view_all_complaints(request):
         complaints = complaints.filter(
             Q(title__icontains=query) | Q(description__icontains=query)
         )
+    
+    ## Pagination
+    paginator = Paginator(complaints, 5) # 10 complaints per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        'complaints': complaints, 
+        'page_obj': page_obj, 
         'title': "View All Complaints",
-        'show_user': True,
         'query': query
     }
-    
+
     return render(request, 'complaint_list.html', context)
 
 @login_required
