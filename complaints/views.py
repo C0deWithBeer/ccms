@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from .models import Complaint
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
 ###
@@ -52,17 +52,24 @@ def login_user(request):
     }
     return render(request, 'home.html', context)
 
+def logout_user(request):
+    logout(request)
+    return redirect('/')
+
 def home(request):
     if request.user.is_authenticated:
         has_logged_in = True
         role = 'admin' if request.user.is_staff else 'user'
+        username = request.user.username
     else:
         has_logged_in = False
         role = None
+        username = 'Anonyms'
 
     context = {
         'has_logged_in': has_logged_in,
-        'role': role
+        'role': role,
+        'username': username
     }
 
     return render(request, 'home.html', context)

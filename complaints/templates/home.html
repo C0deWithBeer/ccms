@@ -7,7 +7,14 @@
 </head>
 <body>
     <h1>Welcome to the Complaint Management System</h1>
-    
+    {% if has_logged_in %}
+        <h2>Greeting, {{username}}</h2>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% endif %}
+    <br>
     <h3>Your Options:</h3>
     
     <ul>
