@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block content %}
 
-<body>
-    <h3>Create Complaint</h3>
-    <form method="post">
-        {% csrf_token %}
-        <label>Title</label>
-        <br>
-        <input type="text" name="title">
-        <br><br>
-        <label>Description</label>
-        <textarea name="description"></textarea>
-        <br><br>
-        <button type="submit">Submit</button>
-    </form>
-</body>
+<h3>Create Complaint</h3>
 
-</html>
+<form method="post">
+    {% csrf_token %}
+    <label class="mt-2">Title</label>
+    <br>
+    <input type="text" name="title" class="form-control mt-1">
+    <label class="mt-3">Description</label>
+    <textarea name="description" class="form-control mt-1"></textarea>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

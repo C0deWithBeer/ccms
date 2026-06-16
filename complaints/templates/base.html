@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CCMS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+
+            <a class="navbar-brand" href="/">
+                Community Complaint Management System
+            </a>
+
+            <div>
+
+                {% if user.is_authenticated %}
+
+                {% if user.is_staff %}
+                <a class="btn btn-outline-light" href="/manage/complaints">
+                    Manage Complaints
+                </a>
+                {% else %}
+                <a class="btn btn-outline-light" href="/create-complaint">
+                    Create Complaint
+                </a>
+
+                <a class="btn btn-outline-light" href="/view-own-complaints">
+                    My Complaints
+                </a>
+                {% endif %}
+
+                <a class="btn btn-danger" href="/logout">
+                    Logout
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+</body>
+
+</html>

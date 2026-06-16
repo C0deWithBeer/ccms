@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>{{ complaint.title }}</h1>
-    <h2>{{ complaint.description }}</h2>
-    <h3>{{ complaint.status }}</h3>
+{% extends 'base.html' %}
 
-    <form method="post">
-        {% csrf_token %}
+{% block content %}
 
-        <input type="text" name="status" placeholder="Enter new status"/>
-        <button type="submit">Update Status</button>
-    </form>
-</body>
-</html>
+<h1>{{ complaint.title }}</h1>
+<h2>{{ complaint.description }}</h2>
+<h3>{{ complaint.status }}</h3>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="status" placeholder="Enter new status" class="form-control">
+    <button type="submit" class="btn btn-primary">Update Status</button>
+</form>
+
+{% endblock %}

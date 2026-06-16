@@ -1,41 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="get">
-        <input type="text" name="q" placeholder="Search complaints...">
-        <button type="submit">Search</button>
-    </form>
-    <h2>{{ title }}</h2>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search complaints..." class="form-control">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<h2>{{ title }}</h2>
+
+<hr>
+
+{% for complaint in page_obj %}
+    <h3>{{ complaint.title }}</h3>
+    <p>{{ complaint.description }}</p>
+    <p>{{ complaint.status }}</p>
+    <p>Belongs to:  {{ complaint.user.username }}</p>
     <hr>
-    {% for complaint in page_obj %}
-        <h3>{{ complaint.title }}</h3>
-        <p>{{ complaint.description }}</p>
-        <p>{{ complaint.status }}</p>
-        <p>Belongs to:  {{ complaint.user.username }}</p>
-        <hr>
-    {% endfor %}
-    <br>
-    <div>
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
-            Previous
-            </a>
-        {% endif %}
+{% endfor %}
 
-        <span>
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-        </span>
+<br>
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
-            Next
-            </a>
-        {% endif %}
-    </div>
-</body>
-</html>
+<div>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
+        Previous
+        </a>
+    {% endif %}
+
+    <span>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
+        Next
+        </a>
+    {% endif %}
+</div>
+
+{% endblock %}
