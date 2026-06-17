@@ -12,6 +12,5 @@ urlpatterns = [
     path('view-own-complaints/', view_own_complaints),
 
     path('manage/complaints/', view_all_complaints),
-    path('manage/complaints/<int:complaint_id>/', update_complaint_status)
-    
+    path('manage/complaints/status-update', update_complaint_status)
 ]

@@ -2,14 +2,78 @@
 
 {% block content %}
 
-<h1>{{ complaint.title }}</h1>
-<h2>{{ complaint.description }}</h2>
-<h3>{{ complaint.status }}</h3>
+<div class="card p-4">
 
-<form method="post">
-    {% csrf_token %}
-    <input type="text" name="status" placeholder="Enter new status" class="form-control">
-    <button type="submit" class="btn btn-primary">Update Status</button>
-</form>
+    <h2>Find Complaint</h2>
+
+    <form method="get">
+
+        <input
+            type="text"
+            name="complaint_id"
+            placeholder="Enter Complaint ID"
+            class="form-control"
+        >
+
+        <button
+            type="submit"
+            class="btn btn-primary mt-3"
+        >
+            Show
+        </button>
+
+    </form>
+
+</div>
+
+<br>
+
+{% if complaint %}
+
+<div class="card p-4">
+
+    <h2>{{ complaint.title }}</h2>
+
+    <p>{{ complaint.description }}</p>
+
+    <h4>
+        Current Status:
+        <span class="badge bg-secondary">
+            {{ complaint.status }}
+        </span>
+    </h4>
+
+    <hr>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <!-- Hidden field -->
+        <input
+            type="hidden"
+            name="complaint_id"
+            value="{{ complaint.id }}"
+        >
+
+        <input
+            type="text"
+            name="status"
+            placeholder="Enter New Status"
+            class="form-control"
+        >
+
+        <button
+            type="submit"
+            class="btn btn-success mt-3"
+        >
+            Update Status
+        </button>
+
+    </form>
+
+</div>
+
+{% endif %}
 
 {% endblock %}

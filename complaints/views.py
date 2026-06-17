@@ -139,29 +139,44 @@ def view_all_complaints(request):
     return render(request, 'complaint_list.html', context)
 
 @login_required
-def update_complaint_status(request, complaint_id):
-    ## restricting normal users from accessing it
+def update_complaint_status(request):
     if not request.user.is_staff:
         return HttpResponse("Access Denied")
-    
-    ## get the complaint object from DB
-    complaint = Complaint.objects.get(id=complaint_id)
 
-    if not complaint:
-        return HttpResponseNotFound("complaint not found")
+    complaint = None
 
-    ## checking is this post request
+    # Update complaint
     if request.method == 'POST':
-        new_status = request.POST['status']
-        
-        complaint.status = new_status
+        complaint_id = request.POST.get('complaint_id')
+        new_status = request.POST.get('status')
 
-        complaint.save()
+        if complaint_id:
+            complaint = Complaint.objects.filter(
+                id=complaint_id
+            ).first()
 
-        return redirect(f'/manage/complaints/{complaint.id}')
-    
+            if complaint:
+                complaint.status = new_status
+                complaint.save()
+
+                return redirect(
+                    f'/manage/complaints/status-update?complaint_id={complaint.id}'
+                )
+
+    # Show complaint
+    complaint_id = request.GET.get('complaint_id')
+
+    if complaint_id:
+        complaint = Complaint.objects.filter(
+            id=complaint_id
+        ).first()
+
     context = {
         'complaint': complaint
     }
-    
-    return render(request, 'update_complaint.html', context)
+
+    return render(
+        request,
+        'update_complaint.html',
+        context
+    )
