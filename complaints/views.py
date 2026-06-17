@@ -104,7 +104,7 @@ def view_own_complaints(request):
         user=request.user
     )
 
-    paginator = Paginator(complaints, 5)
+    paginator = Paginator(complaints, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -126,7 +126,7 @@ def view_all_complaints(request):
         )
     
     ## Pagination
-    paginator = Paginator(complaints, 5) # 10 complaints per page
+    paginator = Paginator(complaints, 10) # 10 complaints per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
